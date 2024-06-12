@@ -26,8 +26,7 @@ class SejdaCrack:
         elif self.platform == "win32":
             self.asar = r"C:\Program Files\Sejda PDF Desktop\resources\app.asar"
             self.prefs = os.path.join(os.getenv("APPDATA"), "sejda-desktop", "prefs.json")
-            self.cmd = ["powershell", "-Command",
-                        "Get-Process | Where-Object {$_.ProcessName -eq \"Sejda PDF Desktop\"}"]
+            self.cmd = ["powershell", "-Command", "Get-Process | Where-Object {$_.ProcessName -eq \"Sejda PDF Desktop\"}"]
             self.print("🪟", "Windows detected")
         elif self.platform == "linux":
             self.asar = "/opt/sejda-desktop/resources/app.asar"
@@ -42,28 +41,27 @@ class SejdaCrack:
         else:
             self.exit(f"Unsupported platform: {self.platform}")
 
-        self.check_file(self.asar, "Sejda PDF Desktop ASAR")
-        self.check_file(self.asar, "Sejda PDF Desktop preferences")
+        self.asar = self.check_file(self.asar, "Sejda PDF Desktop ASAR")
+        self.prefs = self.check_file(self.prefs, "Sejda PDF Desktop preferences")
         self.check_version()
         self.check_process()
         self.patch_files()
         self.print("🎉", "Cracked successful")
         self.print("⭐", "Would appreciate a star https://github.com/gookie-dev/sejda-crack")
 
-    def check_file(self, file: str, name: str):
+    def check_file(self, file: str, name: str) -> str:
         if not os.path.exists(file):
             self.print("❌", f"{name} not found in default location: {file}")
-            self.asar = input(f"Enter path to {name}: ")
-            self.check_files()
+            file = input(f"Enter path to {name}: ")
+            self.check_files(file, name)
         self.print("📦", f"Found {name}")
 
-        if not os.access(self.asar, os.R_OK):
-            self.exit(
-                f"{self.asar} is not readable.\nTry to run this script as administrator / root or change file permissions")
+        if not os.access(file, os.R_OK):
+            self.exit(f"{file} is not readable.\nTry to run this script as administrator / root or change file permissions")
 
-        if not os.access(self.asar, os.W_OK):
-            self.exit(
-                f"{self.asar} is not writable.\nTry to run this script as administrator / root or change file permissions")
+        if not os.access(file, os.W_OK):
+            self.exit(f"{file} is not writable.\nTry to run this script as administrator / root or change file permissions")
+        return file
 
     def check_version(self):
         asar_file = open(self.asar, 'rb')
@@ -86,8 +84,7 @@ class SejdaCrack:
                     if version in self.versions:
                         self.print("⚙️", f"Found Sejda PDF Desktop version {version}")
                     else:
-                        self.print("⚠️",
-                                   f"Sejda PDF Desktop version {version} is not tested. Continue at your own risk")
+                        self.print("⚠️",f"Sejda PDF Desktop version {version} is not tested. Continue at your own risk")
                         input("Press Enter to continue")
                     return
         self.exit("Failed to find package.json in ASAR header")
@@ -105,8 +102,7 @@ class SejdaCrack:
             with open(self.prefs, "r") as f:
                 data = json.load(f)
             data["licenseExpires"] = 9999999999999
-            data[
-                "licenseToken"] = "nx/yFCVXn/g0++Hf5S7iaPmM/H2u0kJ14CtbxlI5m76MNQ0wcyNyvYadZJBf0UBlM23dk65MfYHH+sbBD2M2zgBGkhQd9gKMtrRzmZ6+2mQ="
+            data["licenseToken"] = "nx/yFCVXn/g0++Hf5S7iaPmM/H2u0kJ14CtbxlI5m76MNQ0wcyNyvYadZJBf0UBlM23dk65MfYHH+sbBD2M2zgBGkhQd9gKMtrRzmZ6+2mQ="
             data["licenseKey"] = "cracked by gookie"
             data["startPage"] = ""
             with open(self.prefs, "w") as f:
