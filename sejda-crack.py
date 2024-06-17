@@ -6,6 +6,8 @@ import struct
 import random
 import subprocess
 
+VERSION = "1.0"
+
 
 class SejdaCrack:
     def __init__(self):
@@ -18,26 +20,23 @@ class SejdaCrack:
         self.main()
 
     def main(self):
-        self.print("🔥", "Sejda PDF Desktop crack by gookie")
+        self.print("🔥", f"Sejda PDF Desktop crack v{VERSION} by gookie")
 
-        if self.platform == "darwin":
-            self.print("🍎", "MacOS not supported (yet)")
-            exit(1)
+        if self.platform == "linux":
+            self.asar = "/opt/sejda-desktop/resources/app.asar"
+            self.prefs = os.path.join(self.home_dir(), ".sejda")
+            self.cmd = ["pgrep", "-x", "sejda-desktop"]
+            self.print("🐧", "Linux detected")
         elif self.platform == "win32":
             self.asar = r"C:\Program Files\Sejda PDF Desktop\resources\app.asar"
             self.prefs = os.path.join(os.getenv("APPDATA"), "sejda-desktop", "prefs.json")
             self.cmd = ["powershell", "-Command", "Get-Process | Where-Object {$_.ProcessName -eq \"Sejda PDF Desktop\"}"]
             self.print("🪟", "Windows detected")
-        elif self.platform == "linux":
-            self.asar = "/opt/sejda-desktop/resources/app.asar"
-            sudo_user = os.getenv("SUDO_USER")
-            if sudo_user:
-                home_dir = os.path.expanduser(f'~{sudo_user}')
-            else:
-                home_dir = os.getenv("HOME")
-            self.prefs = os.path.join(home_dir, ".sejda")
-            self.cmd = ["pgrep", "-x", "sejda-desktop"]
-            self.print("🐧", "Linux detected")
+        elif self.platform == "darwin":
+            self.asar = "/Applications/Sejda PDF Desktop.app/Contents/Resources/app.asar"
+            self.prefs = os.path.join(self.home_dir(), ".sejda")
+            self.cmd = ["pgrep", "-x", "\"Sejda PDF Desktop\""]
+            self.print("🍎", "MacOS detected")
         else:
             self.exit(f"Unsupported platform: {self.platform}")
 
@@ -49,18 +48,27 @@ class SejdaCrack:
         self.print("🎉", "Cracked successful")
         self.print("⭐", "Would appreciate a star https://github.com/gookie-dev/sejda-crack")
 
+    @staticmethod
+    def home_dir():
+        sudo_user = os.getenv("SUDO_USER")
+        if sudo_user:
+            return os.path.expanduser(f'~{sudo_user}')
+        else:
+            return os.getenv("HOME")
+
     def check_file(self, file: str, name: str) -> str:
         if not os.path.exists(file):
             self.print("❌", f"{name} not found in default location: {file}")
-            file = input(f"Enter path to {name}: ")
-            self.check_files(file, name)
+            file = input(f"Enter path to {name}: ").strip('"')
+            self.check_file(file, name)
         self.print("📦", f"Found {name}")
 
-        if not os.access(file, os.R_OK):
-            self.exit(f"{file} is not readable.\nTry to run this script as administrator / root or change file permissions")
+        try:
+            with open(file, "a"):
+                pass
+        except PermissionError:
+            self.exit(f"{file} no read/write permissions.\nTry to run this script as administrator / root or change file permissions")
 
-        if not os.access(file, os.W_OK):
-            self.exit(f"{file} is not writable.\nTry to run this script as administrator / root or change file permissions")
         return file
 
     def check_version(self):
@@ -72,7 +80,7 @@ class SejdaCrack:
         header_size = header_size[0] - 8
         asar_file.seek(asar_file.tell() + 8)
         header = asar_file.read(header_size).decode('utf-8')
-        files = json.loads(header.replace("\x00",""))
+        files = json.loads(header.replace("\x00", ""))
         offset = asar_file.seek(asar_file.tell())
         files = files["files"]
         for name, contents in files.items():
@@ -84,7 +92,7 @@ class SejdaCrack:
                     if version in self.versions:
                         self.print("⚙️", f"Found Sejda PDF Desktop version {version}")
                     else:
-                        self.print("⚠️",f"Sejda PDF Desktop version {version} is not tested. Continue at your own risk")
+                        self.print("⚠️", f"Sejda PDF Desktop version {version} is not tested. Continue at your own risk")
                         input("Press Enter to continue")
                     return
         self.exit("Failed to find package.json in ASAR header")
