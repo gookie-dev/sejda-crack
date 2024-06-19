@@ -1,5 +1,5 @@
 # sejda-crack
-Sejda PDF Desktop crack for Windows and Linux tested on version 7.7.0
+Sejda PDF Desktop crack for Linux, Windows and Mac tested on version 7.7.0
 
 ## Requirements
 Before you start, make sure you have the following requirements:
@@ -16,7 +16,7 @@ Before you start, make sure you have the following requirements:
 - Use the cd command to navigate to the directory that contains the script.
 - Run the script using the following command `python3 sejda-crack.py`.
 
-### Running the script as root on Linux
+### Running the script as root on Linux and Mac
 - Open a terminal.
 - Use the cd command to navigate to the directory containing the script.
 - Execute the script with the following command `sudo python3 sejda-crack.py`.
