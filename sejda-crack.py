@@ -6,7 +6,7 @@ import struct
 import random
 import subprocess
 
-VERSION = "1.0"
+VERSION = "1.1"
 
 
 class SejdaCrack:
@@ -111,7 +111,7 @@ class SejdaCrack:
                 data = json.load(f)
             data["licenseExpires"] = 9999999999999
             data["licenseToken"] = "nx/yFCVXn/g0++Hf5S7iaPmM/H2u0kJ14CtbxlI5m76MNQ0wcyNyvYadZJBf0UBlM23dk65MfYHH+sbBD2M2zgBGkhQd9gKMtrRzmZ6+2mQ="
-            data["licenseKey"] = "cracked by gookie"
+            data["licenseKey"] = "AEZT43N8-97LZ-R67Y-44LE-0BB0RSBK5ODR"
             data["startPage"] = ""
             with open(self.prefs, "w") as f:
                 json.dump(data, f)
@@ -124,6 +124,7 @@ class SejdaCrack:
                 data = f.read()
             endpoint = "/" + "".join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
             data = data.replace(b"/licenses/verify", endpoint.encode())
+            data = data.replace(bytes.fromhex("2250524F2061637469766520E2809420222B6C"), bytes.fromhex("22637261636B656420627920676F6F6B696522"))
             with open(self.asar, 'wb') as f:
                 f.write(data)
         except Exception as e:
