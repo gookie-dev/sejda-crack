@@ -4,7 +4,7 @@ Sejda PDF Desktop crack for Linux, Windows and Mac tested on version 7.7.0
 ## Requirements
 Before you start, make sure you have the following requirements:
 - You have Python installed. If not, download and install it from [here](https://www.python.org/downloads/).
-- You have Sejda PDF Desktop installed. If not, download and install it from [here](https://www.sejda.com/desktop).
+- You have Sejda PDF Desktop installed. If not, download it from [here](https://www.sejda.com/desktop), install it **and launch it at least once**.
 
 ## Run sejda-crack.py
 - Clone the repository to your local machine.
