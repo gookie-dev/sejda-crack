@@ -1,5 +1,5 @@
 # sejda-crack
-Sejda PDF Desktop crack for Linux, Windows and Mac tested on version 7.7.0
+Sejda PDF Desktop crack for Linux, Windows and Mac tested on version 7.7.0+
 
 ## Requirements
 Before you start, make sure you have the following requirements:

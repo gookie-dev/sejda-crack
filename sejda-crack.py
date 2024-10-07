@@ -6,7 +6,7 @@ import struct
 import random
 import subprocess
 
-VERSION = "1.1"
+VERSION = "1.2"
 
 
 class SejdaCrack:
@@ -15,7 +15,7 @@ class SejdaCrack:
         self.emoji = None
         self.asar = None
         self.prefs = None
-        self.versions = ["7.7.0"]
+        self.versions = ["7.7.0", "7.7.2", "7.7.4"]
         self.cmd = None
         self.main()
 
