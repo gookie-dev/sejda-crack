@@ -20,3 +20,9 @@ Before you start, make sure you have the following requirements:
 - Open a terminal.
 - Use the cd command to navigate to the directory containing the script.
 - Execute the script with the following command `sudo python3 sejda-crack.py`.
+
+
+## **Disclaimer:**
+> This code is provided solely for educational and research purposes as a proof of concept. It is intended to demonstrate technical concepts and should not be used to bypass, modify, or otherwise interfere with any software licensing mechanisms or other protective measures.  
+>  
+> The author does not condone or support any use of this code that violates applicable laws, terms of service, or the intellectual property rights of others. Users are responsible for ensuring compliance with all relevant laws and regulations in their jurisdiction.  
